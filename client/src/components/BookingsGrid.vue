@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="bookingsGrid">
-    <booking v-for="booking in bookings" :key="index" :booking="booking"/>
+    <booking v-for="(booking, index) in bookings" :key="index" :booking="booking"/>
   </div>
 </template>
 
@@ -30,6 +30,12 @@ export default {
       const index = this.bookings.findIndex(booking => this.bookings._id === id)
       this.bookings.splice(index,1)
     })
+
+    eventBus.$on('booking-edited', (event_booking) => {
+      const index = this.bookings.findIndex(booking => booking.id === event_booking._id)
+      this.bookings.splice(index,1,event_booking)
+    })
+
   },
   methods: {
     fetchData(){
